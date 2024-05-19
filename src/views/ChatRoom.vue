@@ -19,7 +19,6 @@ import TopBar from '@/components/chatcom/TopBar.vue'
 import SideBar from '@/components/chatcom/SideBar.vue'
 import MessageWindow from '@/components/chatcom/MessageWindow.vue'
 import InputWindow from "@/components/chatcom/InputWindow.vue";
-import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import websocket from "@/store/websocket.js";
 import chatlist from "@/store/chatlist.js";
