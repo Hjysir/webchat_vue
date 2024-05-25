@@ -7,11 +7,11 @@
 </template>
 
 <script>
-import Test from './views/test.vue'
+import Login from './views/LoginPage.vue'
 
 export default {
   components: {
-    Test
+    Login
   }
 }
 
