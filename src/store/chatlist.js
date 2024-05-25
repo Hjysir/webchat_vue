@@ -55,6 +55,9 @@ export default createStore({
         // 增加未读消息计数
         addUnreadCount(state, data) {
             state.chatList[data].unreadCount += 1
+        },
+        updateHistoryFlag(state,id){
+            state.chatList.find(i=>i.id===id).historyFlag=true
         }
     },
     actions: {
