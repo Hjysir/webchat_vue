@@ -28,7 +28,7 @@
           </el-dropdown-item>
           <!-- 创建聊天室 -->
           <el-dropdown-item>
-            <el-button type="text" icon="l-icon-close" @click="handleCommand('create-chat-room')">创建聊天室</el-button>
+            <el-button type="text" icon="l-icon-close" @click="dialogTableVisible=true">创建聊天室</el-button>
           </el-dropdown-item>
           <!-- 登出 -->
           <el-dropdown-item>
@@ -37,6 +37,21 @@
         </el-dropdown-menu>
       </template>
     </el-dropdown>
+    <el-dialog v-model="dialogTableVisible" title="添加聊天" @close="dialogTableVisible=false" width="400">
+      <el-radio v-model="addChatForm.flag" size="large" label="1">群聊</el-radio>
+      <el-radio v-model="addChatForm.flag" size="large" label="0">私聊</el-radio>
+      <div class="u-flex" style="margin-top: 10px">
+        <el-input v-model="addChatForm.chatRoomName" placeholder="想要加入的聊天名名称" clearable />
+      </div>
+      <div slot="footer" style="margin-top: 30px;display: flex;justify-content: flex-end">
+        <el-button @click="dialogTableVisible=false">
+          取消
+        </el-button>
+        <el-button type="primary" @click="handleAdd">
+          确定
+        </el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -53,13 +68,30 @@ export default {
   data() {
     return {
       // 用户信息
+      dialogTableVisible:false,
+        addChatForm:{
+          chatRoomName:'',
+          flag:'1'
+        },
       user: {
         name: User.state.username,
-        avatar: User.state.useravatar
+        avatar: User.state.useravatar,
+
+        
       }
     };
   },
   methods: {
+    handleAdd(){
+      createChat(User.state.username, this.addChatForm.chatRoomName,this.addChatForm.flag).then(res => {
+            chatlist.commit("addChatList", res);
+            chatlist.commit("setHasChatList", true);
+            ElMessage({
+              type: 'success',
+              message: `聊天室 ${this.addChatForm.chatRoomName} 创建成功`,
+            })
+          })
+    },
     // 处理下拉菜单命令
     handleCommand: function (command) {
       if (command === 'add-chat-room') {
@@ -91,23 +123,7 @@ export default {
         // 登出操作
         User.commit('logout');
         Router.push('/login')
-      } else if (command === 'create-chat-room') {
-        // 创建聊天室操作
-        ElMessageBox.prompt('聊天室名称', '创建聊天室', {
-          confirmButtonText: '确认',
-          cancelButtonText: '取消',
-        })
-        .then(({value}) => {
-          createChat(User.state.username, value).then(res => {
-            chatlist.commit("addChatList", res);
-            chatlist.commit("setHasChatList", true);
-            ElMessage({
-              type: 'success',
-              message: `聊天室 ${value} 创建成功`,
-            })
-          })
-        })
-      } else if (command === 'exit-chat-room') {
+      }else if (command === 'exit-chat-room') {
         // 退出聊天室操作
         ElMessageBox.prompt('退出聊天室名称', '退出聊天室', {
           confirmButtonText: '确认',
@@ -197,7 +213,6 @@ export default {
 };
 
 </script>
-
 <style scoped>
 /* 样式仅对当前组件生效 */
 .center {

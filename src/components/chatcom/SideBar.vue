@@ -9,7 +9,7 @@
             :key="chat.id"
             :chat="chat"
             :class="selected === chat.id ? 'selected' : ''"
-            @click="selectChat(chat.id)"
+            @click="selectChat(chat.id,chat)"
             class="chat-item"
             style="margin-bottom: 10px"
         />
@@ -53,14 +53,15 @@ export default {
   },
   methods: {
     // 选择聊天室
-    selectChat(chat) {
+    selectChat(chat,item) {
       this.selected = chat
       chatroom.commit("setChatRoom", chat);
       chatroom.commit("setIsSelectChatRoom", true);
       chatroom.commit("setUnreadCount", 0);
       chatroom.commit("setHasNewMessageFalse");
-      const index = chatlist.state.chatList.findIndex(item => item.id === chat.id);
-      chatlist.commit("setHasNewMessageTrue", index);
+      // const index = chatlist.state.chatList.findIndex(item => item.id === chat.id);
+      // chatlist.commit("setHasNewMessageTrue", index);
+      this.$emit('selectChat',item)
     },
   },
   created() {
