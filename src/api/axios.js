@@ -4,8 +4,8 @@ const instance = axios.create({
     baseURL: 'http://localhost:8080', // 你的 Spring Boot 应用程序的 URL
 })
 
-export const sendLogin = (userName, passWord) => {
-    return instance.post('/api/login', { userName, passWord})
+export const sendLogin = (name, password) => {
+    return instance.post('/api/login', { name, password })
         .then(response => response.data)
         .catch(error => {
             console.error('Failed to login:', error)
@@ -13,8 +13,8 @@ export const sendLogin = (userName, passWord) => {
         })
 }
 
-export const sendRegister = (userName, passWord, email) => {
-    return instance.post('/api/register', { userName, passWord, email })
+export const sendRegister = (name, password, email) => {
+    return instance.post('/api/register', { name, password, email })
         .then(response => response.data)
         .catch(error => {
             console.error('Failed to register:', error)
@@ -22,8 +22,8 @@ export const sendRegister = (userName, passWord, email) => {
         })
 }
 
-export const createChat = (userId, name) => {
-    return instance.post(`/api/createchatroom/${userId}`, { name })
+export const createChat = (userId, chatname) => {
+    return instance.post(`/api/createchatroom/${userId}`, { chatname })
         .then(response => response.data)
         .catch(error => {
             console.error('Failed to create chat:', error)
@@ -67,17 +67,8 @@ export const getChatRoom = (chatRoomName) => {
         })
 }
 
-export const sendChatMessage = (chatRoomName, message) => {
-    return instance.post(`/api/sendmessage/${chatRoomName}`, { message })
-        .then(response => response.data)
-        .catch(error => {
-            console.error('Failed to send chat message:', error)
-            throw error
-        })
-}
-
 export const getChatMessages = (chatRoomname) => {
-    return instance.get(`/api/getmessage/${chatRoomname}`)
+    return instance.get(`/api/gethistory/${chatRoomname}`)
         .then(response => response.data)
         .catch(error => {
             console.error('Failed to get chat messages:', error)
@@ -92,15 +83,6 @@ export const getChatList = (userName) => {
         })
         .catch(error => {
             console.error('Failed to get chat list:', error)
-            throw error
-        })
-}
-
-export const apilogout = (userName) => {
-    return instance.get(`/api/logout/${userName}`)
-        .then(response => response.data)
-        .catch(error => {
-            console.error('Failed to logout:', error)
             throw error
         })
 }
