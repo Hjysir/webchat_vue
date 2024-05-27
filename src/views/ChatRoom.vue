@@ -46,7 +46,7 @@ export default {
     const selectChat=data=>{
       chatlist.commit("updateHistoryFlag", data.id);
       const historyFlag=chatlist.state.chatList.find(i=>i.id===data.id).historyFlag
-      historyFlag && getHistoryMsg(data.name).then(res=>{
+      historyFlag && getHistoryMsg(data.chatname).then(res=>{
         console.log('历史记录',res);
       })
     }
