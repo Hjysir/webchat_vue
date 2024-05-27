@@ -5,7 +5,7 @@
     <el-avatar :src="chat.avatar"></el-avatar>
     <div class="chat-info">
       <!-- 聊天室名称 -->
-      <div class="chat-title">{{ chat.name }}</div>
+      <div class="chat-title">{{ chat.chatname }}</div>
       <div class="chat-message">
         <!-- 最新消息内容 -->
         <span v-if="chat.messages.length > 0" class="message-content" >{{ chat.messages[chat.messages.length - 1].content }}</span>
