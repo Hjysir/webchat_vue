@@ -8,7 +8,7 @@
     <!-- 内容容器 -->
     <el-container>
       <!-- 侧边栏 -->
-      <el-aside width="330px"><SideBar /></el-aside>
+      <el-aside width="330px"><SideBar @selectChat="selectChat" /></el-aside>
       <!-- 内容区域 -->
       <el-container>
         <el-main>
@@ -33,6 +33,7 @@ import websocket from "@/store/websocket.js";
 import chatlist from "@/store/chatlist.js";
 import {computed, ref, watch} from "vue";
 import chatroom from "@/store/chatroom.js";
+import {getHistoryMsg} from "@/api/axios" 
 
 export default {
   components: {
@@ -42,6 +43,13 @@ export default {
     InputWindow
   },
   setup() {
+    const selectChat=data=>{
+      chatlist.commit("updateHistoryFlag", data.id);
+      const historyFlag=chatlist.state.chatList.find(i=>i.id===data.id).historyFlag
+      historyFlag && getHistoryMsg(data.name).then(res=>{
+        console.log('历史记录',res);
+      })
+    }
     // 计算属性：检查条件是否满足
     const condition = computed(() => {
       return websocket.state.stompClient !== null && chatlist.state.hasChatList === true;
@@ -61,7 +69,7 @@ export default {
             // 订阅消息
             websocket.state.stompClient.subscribe(`/topic/${res[i].id}`, message => {
               const index = chatlist.state.chatList.findIndex(item => item.id === res[i].id);
-              console.log(index);
+              // console.log(index);
               const id = chatlist.state.chatList[index].messages.length + 1;
               const senderId = message.headers;
               const content = message.body;
@@ -98,6 +106,9 @@ export default {
         }
       }
     });
+    return {
+    selectChat
+  }
   },
   created() {
     // 创建 WebSocket 连接
@@ -108,6 +119,7 @@ export default {
       websocket.commit("setWebsocketStatus", true);
       websocket.commit("setStompClient", stompClient);
     });
-  }
+  },
+
 }
 </script>
