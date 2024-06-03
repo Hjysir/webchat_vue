@@ -90,6 +90,7 @@ export default {
               type: 'success',
               message: `聊天室 ${this.addChatForm.chatRoomName} 创建成功`,
             })
+            this.dialogTableVisible=false
           })
     },
     // 处理下拉菜单命令

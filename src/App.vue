@@ -16,3 +16,9 @@ export default {
 }
 
 </script>
+<style>
+.chat-collapse .el-collapse-item__header{
+  padding-left: 20px!important;
+}
+
+</style>

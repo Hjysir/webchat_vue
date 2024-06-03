@@ -247,11 +247,58 @@ export const changePassword = (userName, newPassword) => {
 
 
 // 获取聊天历史记录
-export const getHistoryMsg = (chatName,tag) => {
-    return instance.post(`/api/gethistory/${chatName}${tag}?'/${tag}':''`)
-        .then(response => response.data) // 如果成功，返回响应数据
-        .catch(error => { // 如果有错误
-            console.error(error) // 在控制台打印错误
-            throw error // 抛出错误以供调用者处理
-        })
+// export const getHistoryMsg = (chatName,tag) => {
+//     return instance.post(`/api/gethistory/${chatName}${tag}?'/${tag}':''`)
+//         .then(response => response.data) // 如果成功，返回响应数据
+//         .catch(error => { // 如果有错误
+//             console.error(error) // 在控制台打印错误
+//             throw error // 抛出错误以供调用者处理
+//         })
+// }
+// export const getHistoryMsg = (name, tag) => {
+//     // 检查 chatName 和 tag 是否有有效值
+//     // if (!tag) {
+//     //     throw new Error('tag 不能为空');
+//     // }
+//     // if (!chatName) {
+//     //     throw new Error('chatName 和不能为空');
+//     // }
+//
+//
+//
+//     // 构造正确的 URL
+//     const url = tag ? `/api/gethistory/${name}/${tag}` : `/api/gethistory/${name}`;
+//
+//     // 发送 POST 请求
+//     return instance.post(url)
+//         .then(response => response.data) // 如果成功，返回响应数据
+//         .catch(error => { // 如果有错误
+//             console.error(error); // 在控制台打印错误
+//             throw error; // 抛出错误以供调用者处理
+//         });
+// }
+
+
+
+
+
+
+
+
+
+
+export const getHistoryMsg = (name, tag) => {
+    if (!name) {
+        throw new Error('chatName 不能为空');
+    }
+    const url = tag ? `/api/gethistory/${name}/${tag}` : `/api/gethistory/${name}`;
+    return instance.post(url)
+        .then(response => response.data)
+        .catch(error => {
+            console.error(error);
+    throw error;
+});
 }
+
+
+

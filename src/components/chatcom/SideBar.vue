@@ -3,16 +3,39 @@
   <div class="chat-list">
     <!-- 使用 Element UI 的滚动条组件 -->
     <el-scrollbar height="800px" v-if="hasChat">
+       <div class="chat-collapse">
+         <el-collapse v-model="activeNames" >
+           <el-collapse-item title="群聊" name="1">
+             <div  v-for="chat in chats"
+                   :key="chat.chatid">
+               <chat-item
+                   v-if="chat.chattype==='1'"
+                   :chat="chat"
+                   :class="selected === chat.chatid ? 'selected' : ''"
+                   @click="selectChat(chat.chatid,chat)"
+                   class="chat-item"
+                   style="margin-bottom: 10px"
+               />
+             </div>
+           </el-collapse-item>
+           <el-collapse-item title="私聊" name="2">
+             <div  v-for="chat in chats"
+                   :key="chat.chatid">
+               <chat-item
+                   v-if="chat.chattype==='0'"
+                   :chat="chat"
+                   :class="selected === chat.chatid ? 'selected' : ''"
+                   @click="selectChat(chat.chatid,chat)"
+                   class="chat-item"
+                   style="margin-bottom: 10px"
+               />
+             </div>
+
+           </el-collapse-item>
+         </el-collapse>
+       </div>
         <!-- 遍历聊天列表，生成聊天项 -->
-        <chat-item
-            v-for="chat in chats"
-            :key="chat.id"
-            :chat="chat"
-            :class="selected === chat.id ? 'selected' : ''"
-            @click="selectChat(chat.id,chat)"
-            class="chat-item"
-            style="margin-bottom: 10px"
-        />
+
     </el-scrollbar>
     <!-- 如果没有聊天，则显示暂无聊天室 -->
     <div v-else class="no-chat">
@@ -35,12 +58,14 @@ export default {
     return {
       // 当前选中的聊天室
       selected: null,
+      activeNames:['1','2']
     };
   },
   computed: {
     // 计算属性：获取聊天列表
     chats(newVal, oldVal) {
       if (newVal !== oldVal) {
+        console.log(newVal,oldVal)
         return chatlist.state.chatList;
       }
     },
