@@ -59,7 +59,7 @@ export default {
       });
     },
     handleSearch(){
-     return console.log(chatroom.state.chatRoom.name);
+     return console.log(chatroom.state.chatRoom.chatname);
       getHistoryMsg(chatroom.state.name,this.param.keyword).then(res=>{
         console.log('搜索结果',res);
       })

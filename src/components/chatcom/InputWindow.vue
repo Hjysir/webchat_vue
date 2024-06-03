@@ -102,8 +102,26 @@ export default {
         console.log("发送空消息") // 如果输入文本为空，提示发送空消息
       } else {
         console.log("发送消息" + this.inputText) // 输出发送的消息
-        const sendUrl = `/app/ws/${chatroom.state.chatRoom.id}/${user.state.username}`; // 生成发送消息的URL
-        websocket.state.stompClient.send(sendUrl, {}, this.inputText); // 通过websocket发送消息
+        console.log(chatroom.state.chatRoom.chatname)
+        const sendUrl = `/app/ws/${chatroom.state.chatRoom.chatname}/${user.state.username}`; // 生成发送消息的URL
+
+        const message = {
+          // 用户名字
+          id: user.state.username,
+          // 聊天室的名字
+          chatid: chatroom.state.chatRoom.chatid,
+          // 聊天的形式，是群聊还是私聊
+          messagetype: 0,
+          // 消息的内容
+          content: this.inputText,
+          // 时间戳
+          timestamp: new Date().getTime(),
+          //如果有文件，文件的URL，不然为空
+          URL: ''
+        };
+
+        var JSON_message = JSON.stringify(message)
+        websocket.state.stompClient.send(sendUrl, {}, JSON_message); // 通过websocket发送消息
         this.inputText = ''; // 清空输入框
       }
     },

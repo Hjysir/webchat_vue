@@ -7,8 +7,8 @@ export default createStore({
         isSelectChatRoom: false,
         // 当前聊天室信息
         chatRoom: {
-            id: null, // 聊天室ID
-            name: null, // 聊天室名称
+            chatid: null, // 聊天室ID
+            chatname: null, // 聊天室名称
             avatar: null, // 聊天室头像
             messages: [], // 聊天消息列表
             hasNewMessage: false, // 是否有新消息
@@ -18,9 +18,11 @@ export default createStore({
     },
     mutations: {
         // 设置当前聊天室信息
-        setChatRoom(state, chatRoomId) {
+        setChatRoom(state, chatRoomName) {
             for (let i = 0; i < chatlist.state.chatList.length; i++) {
-                if (chatlist.state.chatList[i].id === chatRoomId) {
+                console.log(chatlist.state.chatList[i].chatname + " " + chatRoomName);
+                if (chatlist.state.chatList[i].chatname === chatRoomName) {
+                    console.log()
                     state.chatRoom = chatlist.state.chatList[i];
                     break;
                 }
@@ -38,7 +40,7 @@ export default createStore({
         },
         // 设置当前聊天室ID
         setChatRoomId(state, id) {
-            state.chatRoom.id = id;
+            state.chatRoom.chatid = id;
         },
         // 设置当前聊天室有新消息为真
         setHasNewMessageTrue(state) {

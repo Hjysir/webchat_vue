@@ -3,39 +3,36 @@
   <div class="chat-list">
     <!-- 使用 Element UI 的滚动条组件 -->
     <el-scrollbar height="800px" v-if="hasChat">
-       <div class="chat-collapse">
-         <el-collapse v-model="activeNames" >
-           <el-collapse-item title="群聊" name="1">
-             <div  v-for="chat in chats"
-                   :key="chat.chatid">
-               <chat-item
-                   v-if="chat.chattype==='1'"
-                   :chat="chat"
-                   :class="selected === chat.chatid ? 'selected' : ''"
-                   @click="selectChat(chat.chatid,chat)"
-                   class="chat-item"
-                   style="margin-bottom: 10px"
-               />
-             </div>
-           </el-collapse-item>
-           <el-collapse-item title="私聊" name="2">
-             <div  v-for="chat in chats"
-                   :key="chat.chatid">
-               <chat-item
-                   v-if="chat.chattype==='0'"
-                   :chat="chat"
-                   :class="selected === chat.chatid ? 'selected' : ''"
-                   @click="selectChat(chat.chatid,chat)"
-                   class="chat-item"
-                   style="margin-bottom: 10px"
-               />
-             </div>
-
-           </el-collapse-item>
-         </el-collapse>
-       </div>
-        <!-- 遍历聊天列表，生成聊天项 -->
-
+      <div class="chat-collapse">
+        <el-collapse v-model="activeNames" >
+          <el-collapse-item title="群聊" name="1">
+            <div  v-for="chat in chats"
+                  :key="chat.chatid">
+              <chat-item
+                  v-if="chat.chattype==='1'"
+                  :chat="chat"
+                  :isSelected="selected === chat.chatname"
+                  @click="selectChat(chat.chatname,chat)"
+                  class="chat-item"
+                  style="margin-bottom: 10px"
+              />
+            </div>
+          </el-collapse-item>
+          <el-collapse-item title="私聊" name="2">
+            <div  v-for="chat in chats"
+                  :key="chat.chatid">
+              <chat-item
+                  v-if="chat.chattype==='0'"
+                  :chat="chat"
+                  :isSelected="selected === chat.chatname"
+                  @click="selectChat(chat.chatname,chat)"
+                  class="chat-item"
+                  style="margin-bottom: 10px"
+              />
+            </div>
+          </el-collapse-item>
+        </el-collapse>
+      </div>
     </el-scrollbar>
     <!-- 如果没有聊天，则显示暂无聊天室 -->
     <div v-else class="no-chat">
@@ -77,21 +74,14 @@ export default {
     },
   },
   methods: {
-    // 选择聊天室
     selectChat(chat,item) {
       this.selected = chat
       chatroom.commit("setChatRoom", chat);
       chatroom.commit("setIsSelectChatRoom", true);
       chatroom.commit("setUnreadCount", 0);
       chatroom.commit("setHasNewMessageFalse");
-      // const index = chatlist.state.chatList.findIndex(item => item.id === chat.id);
-      // chatlist.commit("setHasNewMessageTrue", index);
       this.$emit('selectChat',item)
     },
-  },
-  created() {
-    // 在组件创建时打印聊天列表状态
-    // console.log(chatlist.state.chatList)
   }
 };
 </script>

@@ -27,7 +27,7 @@ export const sendRegister = (name, password, email) => {
 }
 
 export const createChat = (username, chatname, flag) => {
-    return instance.post(`/api/createchatroom/${username}/${ flag }`, {chatname})
+    return instance.post(`/api/createchatroom/${username}/${flag}`, {chatname})
         .then(response => response.data)
         .catch(error => {
             console.error('Failed to create chat:', error)
@@ -162,7 +162,7 @@ export const getHistoryMsg = (name, tag) => {
         throw new Error('chatName 不能为空');
     }
     const url = tag ? `/api/gethistory/${name}/${tag}` : `/api/gethistory/${name}`;
-    return instance.post(url)
+    return instance.get(url)
         .then(response => response.data)
         .catch(error => {
             console.error(error);

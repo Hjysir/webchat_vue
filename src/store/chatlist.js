@@ -6,9 +6,13 @@ export default createStore({
         hasChatList: false,
         // 聊天列表
         chatList: [{
-            id: null, name: null, avatar: null,
+            chatid: null,
+            chatname: null,
+            avatar: null,
             messages: [],
-            hasNewMessage: false, unreadCount: 0, isSelected: false
+            hasNewMessage: false,
+            unreadCount: 0,
+            isSelected: false
         }]
     },
     mutations: {
@@ -57,7 +61,7 @@ export default createStore({
             state.chatList[data].unreadCount += 1
         },
         updateHistoryFlag(state,id){
-            state.chatList.find(i=>i.id===id).historyFlag=true
+            state.chatList.find(i=>i.chatid===id).historyFlag=true
         }
     },
     actions: {

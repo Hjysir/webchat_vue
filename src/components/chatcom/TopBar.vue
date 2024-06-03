@@ -71,7 +71,7 @@ export default {
       dialogTableVisible:false,
         addChatForm:{
           chatRoomName:'',
-          flag:'1'
+          flag:''
         },
       user: {
         name: User.state.username,

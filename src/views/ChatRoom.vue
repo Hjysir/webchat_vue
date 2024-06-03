@@ -45,7 +45,7 @@ export default {
   setup() {
     const selectChat=data=>{
       chatlist.commit("updateHistoryFlag", data.id);
-      const historyFlag=chatlist.state.chatList.find(i=>i.id===data.id).historyFlag
+      const historyFlag=chatlist.state.chatList.find(i=>i.chatname===data.id).historyFlag
       historyFlag && getHistoryMsg(data.chatname).then(res=>{
         console.log('历史记录',res);
       })
@@ -65,15 +65,16 @@ export default {
           // 遍历聊天室列表，订阅消息
           for (let i = 0; i < chatlist.state.chatList.length; i++) {
             const res = chatlist.state.chatList;
-            websocket.commit("addSubscriptionRoomId", res[i].id);
+            console.log(res[i]);
+            websocket.commit("addSubscriptionRoomId", res[i].chatname);
             // 订阅消息
-            websocket.state.stompClient.subscribe(`/topic/${res[i].id}`, message => {
-              const index = chatlist.state.chatList.findIndex(item => item.id === res[i].id);
+            websocket.state.stompClient.subscribe(`/topic/${res[i].chatname}`, message => {
+              const index = chatlist.state.chatList.findIndex(item => item.chatname === res[i].chatname);
               // console.log(index);
               const id = chatlist.state.chatList[index].messages.length + 1;
               const senderId = message.headers;
               const content = message.body;
-              const chatRoomId = res[i].id;
+              const chatRoomId = res[i].chatname;
               const timestamp = new Date().toLocaleString();
               const avatar = res[i].avatar;
               const filename = "";

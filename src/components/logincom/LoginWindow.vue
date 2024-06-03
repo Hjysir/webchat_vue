@@ -72,6 +72,7 @@ const getLogin = async () => {
         chatlist.commit("setChatList", res);
         chatlist.commit("setHasChatList", true);
       }
+
     });
     await router.push("/chatroom")
   } else {
