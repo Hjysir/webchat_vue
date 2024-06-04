@@ -2,7 +2,7 @@
   <!-- 聊天界面容器 -->
   <el-container class="chat-interface">
      <div class="btn" v-if="chatRoomSelected">
-      <el-button type="primary" @click="dialogTableVisible=true">打开</el-button>
+      <el-button type="primary" @click="dialogTableVisible=true">搜索历史</el-button>
      </div>
     <!-- 如果已选择聊天室，显示消息区域 -->
     <el-scrollbar v-if="chatRoomSelected" class="message-area" max-height="600px">
@@ -13,13 +13,13 @@
     <div class="NoMessage" v-else>
       <h1>请选择聊天室</h1>
     </div>
-    <el-dialog v-model="dialogTableVisible" title="标题" @close="dialogTableVisible=false" width="800">
+    <el-dialog style="background: #f4f4f4" v-model="dialogTableVisible" title="搜索历史记录" @close="dialogTableVisible=false" width="800">
       <div class="u-flex">
         <el-input v-model="param.keyword" placeholder="输入关键词进行搜索" clearable 
           @keyup.enter.native="handleSearch" class="g-flex-1" />
           <el-button type="primary" @click="handleSearch" style="margin-left: 20px" class="g-flex-0">搜索</el-button>
       </div>
-      
+      <message-box :messages="searchMessages" />
     </el-dialog>
   </el-container>
 </template>
@@ -34,7 +34,8 @@ export default {
       dialogTableVisible:false,
       param:{
         keyword:''
-      }
+      },
+      searchMessages:undefined
     }
   },
   components: {
@@ -43,6 +44,7 @@ export default {
   computed: {
     // 计算属性：获取所有消息
     allMessages() {
+      console.log('allMessages',chatroom.state.chatRoom.messages)
       return chatroom.state.chatRoom.messages;
     },
     // 计算属性：检查是否选择了聊天室
@@ -59,8 +61,13 @@ export default {
       });
     },
     handleSearch(){
-     return console.log(chatroom.state.chatRoom.chatname);
-      getHistoryMsg(chatroom.state.name,this.param.keyword).then(res=>{
+     // return console.log(chatroom.state.chatRoom.chatname);
+      getHistoryMsg(chatroom.state.chatRoom.chatname,this.param.keyword).then(res=>{
+        res.forEach(item=>{
+          item.content=`${item.id}:${item.content}`
+          item.avatar=item.avatar||''
+        })
+        this.searchMessages=res
         console.log('搜索结果',res);
       })
       

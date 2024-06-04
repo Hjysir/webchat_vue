@@ -4,7 +4,7 @@
     <div class="center">
       <!-- 用户头像和名称 -->
       <el-avatar :src="user.avatar"></el-avatar>
-      <el-text size="large" class="user-name">{{ user.name }}</el-text>
+      <el-text size="large" class="user-na me">{{ user.name }}</el-text>
     </div>
     <!-- 下拉菜单 -->
     <el-dropdown>

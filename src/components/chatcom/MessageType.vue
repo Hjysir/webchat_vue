@@ -12,7 +12,7 @@
       }"
     >
       <!-- 消息头像 -->
-      <el-avatar :src="message.avatar" size="default"></el-avatar>
+      <el-avatar :src="message.avatar ||'https://userpic.codeforces.org/no-title.jpg' " size="default"></el-avatar>
       <!-- 消息内容 -->
       <div class="message-content">
         <div class="message-text">{{ message.content.split(":")[1] }}</div> <!-- 显示消息内容 -->
@@ -24,7 +24,7 @@
     </div>
   </div>
 </template>
-
+<!---->
 <script>
 import user from "@/store/user.js"; // 引入用户状态管理
 

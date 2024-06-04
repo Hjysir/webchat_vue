@@ -78,7 +78,7 @@ export default {
       this.selected = chat
       chatroom.commit("setChatRoom", chat);
       chatroom.commit("setIsSelectChatRoom", true);
-      chatroom.commit("setUnreadCount", 0);
+      // chatroom.commit("setUnreadCount", 0);
       chatroom.commit("setHasNewMessageFalse");
       this.$emit('selectChat',item)
     },

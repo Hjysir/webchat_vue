@@ -1,5 +1,8 @@
 import { createStore } from 'vuex'
 
+import chatroom from './chatroom';
+
+
 export default createStore({
     state: {
         // 是否有聊天列表
@@ -12,7 +15,8 @@ export default createStore({
             messages: [],
             hasNewMessage: false,
             unreadCount: 0,
-            isSelected: false
+            isSelected: false,
+            // historyFlag: false
         }]
     },
     mutations: {
@@ -62,6 +66,7 @@ export default createStore({
         },
         updateHistoryFlag(state,id){
             state.chatList.find(i=>i.chatid===id).historyFlag=true
+            // state.chatList[data].historyFlag = true;
         }
     },
     actions: {

@@ -44,11 +44,54 @@ export default {
   },
   setup() {
     const selectChat=data=>{
-      chatlist.commit("updateHistoryFlag", data.id);
-      const historyFlag=chatlist.state.chatList.find(i=>i.chatname===data.id).historyFlag
-      historyFlag && getHistoryMsg(data.chatname).then(res=>{
-        console.log('历史记录',res);
+
+
+
+      // const historyFlag=chatlist.state.chatList.find(i=>i.chatname===data.id).historyFlag
+      // historyFlag && getHistoryMsg(data.chatname).then(res=>{
+      //
+      const historyFlag=chatlist.state.chatList.find(i=>i.chatid===data.chatid).historyFlag
+
+      !historyFlag && getHistoryMsg(data.chatname).then(res=>{
+        chatlist.commit("updateHistoryFlag", data.chatid);
+        res.forEach(item=>{
+          const index = chatlist.state.chatList.findIndex(i => i.chatid === item.chatid);
+          console.log('index',index,chatlist.state.chatList[index]);
+          const id = chatlist.state.chatList[index].messages.length + 1;
+          const senderId = item.id;
+          const content = `${item.id}:${item.content}`;
+          const chatRoomId = item.chatid;
+          const timestamp = item.timestamp;
+          const avatar = item.avatar||'';
+          const filename = "";
+          const type = "text";
+          const messageObj = {
+            index,
+            getMessages: {
+              id,
+              senderId,
+              content,
+              chatRoomId,
+              timestamp,
+              avatar,
+              filename,
+              type
+            }
+          }
+          // 添加消息到聊天室
+          chatlist.commit("addChatRoomMessage", messageObj);
+        })
+
+
+        //渲染
+
       })
+
+
+
+
+
+
     }
     // 计算属性：检查条件是否满足
     const condition = computed(() => {
@@ -65,7 +108,7 @@ export default {
           // 遍历聊天室列表，订阅消息
           for (let i = 0; i < chatlist.state.chatList.length; i++) {
             const res = chatlist.state.chatList;
-            console.log(res[i]);
+            // console.log(res[i]);
             websocket.commit("addSubscriptionRoomId", res[i].chatname);
             // 订阅消息
             websocket.state.stompClient.subscribe(`/topic/${res[i].chatname}`, message => {

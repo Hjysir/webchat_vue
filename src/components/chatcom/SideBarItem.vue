@@ -59,6 +59,7 @@ export default {
   transition: background-color 0.2s;
   height: 60px;
   color: #868686;
+  margin-left: 10px;
 }
 
 .chat-item.selected {

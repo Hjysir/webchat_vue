@@ -5,6 +5,7 @@ export default createStore({
     state: {
         // 是否选中聊天室
         isSelectChatRoom: false,
+        // historyFlag: false,
         // 当前聊天室信息
         chatRoom: {
             chatid: null, // 聊天室ID
@@ -13,7 +14,8 @@ export default createStore({
             messages: [], // 聊天消息列表
             hasNewMessage: false, // 是否有新消息
             unreadCount: 0, // 未读消息数
-            isSelected: false // 是否选中状态
+            isSelected: false,// 是否选中状态
+
         },
     },
     mutations: {
@@ -31,6 +33,7 @@ export default createStore({
         // 设置是否选中聊天室
         setIsSelectChatRoom(state, status) {
             state.isSelectChatRoom = status;
+            // state.historyFlag = status;
             state.chatRoom.hasNewMessage = false;
         },
         // 添加消息到当前聊天室
